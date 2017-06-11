@@ -145,9 +145,6 @@ def movimiento(a,space,manzana,dif):
             elif z==4:
                 a.posicion[len(a.posicion)-1][0]=space.y-1
 
-    for i in range(len(a.posicion)-1):
-        if(a.posicion[i]==a.posicion[len(a.posicion)-1]):
-            ganar(a,space,manzana,dif)
     p_comiofruta(a,space,manzana,r,dif)
     if x==False:
         return False

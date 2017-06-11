@@ -104,6 +104,7 @@ def ganar(a,space,manzana,dif):
             x-=1
         a.direccion="derecha"
         a.nivel=3
+        a.puntaje=0
         return True
     elif a.puntaje>=300:
         dibujar(a,space,manzana,dif)

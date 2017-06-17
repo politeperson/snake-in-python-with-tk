@@ -1,6 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from random import *
 from os import *
 from time import *
+from termcolor import *
 #Clases
 class espacio:
     x=0
@@ -13,13 +16,18 @@ class serpiente:
     puntaje=0
     nivel=1
     estado="perder"
-
+    total=0
+    forma = "o"
+    velocidad = 0.1
+    color = "blue"
+    jugador = "sinNombre"
 class obstaculos:
     posicion=[]
 
 class fruta:
     x=0
     y=10
+    color = "white"
 
 def avanzar(a):
     g=a.posicion
@@ -70,7 +78,7 @@ def ganar(a,space,manzana,dif):
         system("clear")
         x=5
         while(x>0):
-            print "nivel 2 en....",x
+            print "nivel  2  en....",x
             sleep(1)
             system("clear")
             x-=1
@@ -98,19 +106,19 @@ def ganar(a,space,manzana,dif):
         system("clear")
         x=5
         while(x>0):
-            print "nivel 3 en....",x
+            print "nivel  3  en....",x
             sleep(1)
             system("clear")
             x-=1
         a.direccion="derecha"
         a.nivel=3
-        a.puntaje=0
+        a.puntaje = 0
         return True
     elif a.puntaje>=300:
         dibujar(a,space,manzana,dif)
         sleep(0.5)
         system("clear")
-        print "usted ha ganado el juego con",a.puntaje,"puntos"
+        print "usted ha ganado el juego con ",a.total," puntos"
         a.estado="ganar"
         return True
     return False
@@ -144,7 +152,6 @@ def movimiento(a,space,manzana,dif):
                 a.posicion[len(a.posicion)-1][1]=0
             elif z==4:
                 a.posicion[len(a.posicion)-1][0]=space.y-1
-
     p_comiofruta(a,space,manzana,r,dif)
     if x==False:
         return False
@@ -169,6 +176,7 @@ def aparecer_fruta(a,space,manzana,dif):
     
 def comer_fruta(a,space,manzana,dif):
     a.puntaje += 10
+    a.total += 10
     aparecer_fruta(a,space,manzana,dif)
 
 def p_comiofruta(a,space,manzana,r,dif):
@@ -181,14 +189,14 @@ def p_comiofruta(a,space,manzana,r,dif):
 
 def dibujar(a,space,manzana,dif):
     system("clear")
-    print "puntaje:",a.puntaje,"          ","nivel",a.nivel
+    cprint ("puntaje:"+str(a.puntaje)+"         nivel"+str(a.nivel) , "white")
     l=[]
     u=[]
     for i in range(space.x+2):
         if(a.nivel==2):
-            print "X",
+            print colored("X" , "red") ,
         else:
-            print '.',
+            print colored("✺", "green") ,
     print ""
     for i in range(space.y):
         for i in range(space.x):
@@ -197,24 +205,30 @@ def dibujar(a,space,manzana,dif):
         u=[]
     for i in range(len(dif.posicion)):
         l[dif.posicion[i][0]][dif.posicion[i][1]]="X"
+
     for i in range(len(a.posicion)):
-        l[a.posicion[i][0]][a.posicion[i][1]]='o'
-    l[manzana.y][manzana.x]="*"
+        l[a.posicion[i][0]][a.posicion[i][1]]=a.forma
+    l[manzana.y][manzana.x]="☯"
+
     for i in range(len(l)):
         if(a.nivel==2):
-            print"X",
+            print colored("X" , "red"),
         else:
-            print'.',
+            print colored('✺' , "magenta"),
         for j in range(len(l[i])):
-            print l[i][j],
+            if l[i][j] == "☯":
+                print colored(l[i][j] , manzana.color),
+            else:
+                print colored(l[i][j] , a.color),
+
         if(a.nivel == 2):
-            print "X"
+            print colored("X" , "red")
         else:
-            print '.'
+            print colored('✺' , "yellow")
             
     for i in range(space.x+2):
         if(a.nivel==2):
-            print 'X',
+            print colored('X',"red"),
         else:
-            print '.',
+            print colored('✺',"cyan"),
     print ""
